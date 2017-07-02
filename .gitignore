@@ -1,0 +1,7 @@
+.idea
+.DS_Store
+target/
+.
+challenges/*.txt
+record/localstore
+config/credentials.config
