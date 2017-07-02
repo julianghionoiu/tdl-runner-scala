@@ -1,6 +1,7 @@
 package befaster
 
 import befaster.runner.ClientRunner
+import befaster.runner.CredentialsConfigFile.readFromConfigFile
 import befaster.runner.RunnerAction._
 
 object BeFasterApp extends App {
@@ -43,7 +44,7 @@ object BeFasterApp extends App {
     *                                      After you fix the problem, you should deploy a new version into production.
     *
     **/
-  ClientRunner.forUserWithEmail("your_email_here")
+  ClientRunner.forUser(readFromConfigFile("tdl_username"))
     .withServerHostname("run.befaster.io")
     .withActionIfNoArgs(testConnectivity)
     .start(args)
