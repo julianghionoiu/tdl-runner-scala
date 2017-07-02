@@ -19,14 +19,14 @@ import static tdl.client.actions.ClientActions.publish;
 public class ClientRunner {
     private String hostname;
     private RunnerAction defaultRunnerAction;
-    private final String userId;
+    private final String username;
 
-    public static ClientRunner forUser(String userId) {
-        return new ClientRunner(userId);
+    public static ClientRunner forUsername(String username) {
+        return new ClientRunner(username);
     }
 
-    private ClientRunner(String userId) {
-        this.userId = userId;
+    private ClientRunner(String username) {
+        this.username = username;
     }
 
     public ClientRunner withServerHostname(String hostname) {
@@ -45,7 +45,7 @@ public class ClientRunner {
 
         Client client = new Client.Builder()
                 .setHostname(hostname)
-                .setUniqueId(userId)
+                .setUniqueId(username)
                 .create();
 
         ProcessingRules processingRules = new ProcessingRules() {{

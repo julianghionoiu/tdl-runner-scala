@@ -44,7 +44,7 @@ object BeFasterApp extends App {
     *                                      After you fix the problem, you should deploy a new version into production.
     *
     **/
-  ClientRunner.forUser(readFromConfigFile("tdl_username"))
+  ClientRunner.forUsername(readFromConfigFile("tdl_username"))
     .withServerHostname("run.befaster.io")
     .withActionIfNoArgs(testConnectivity)
     .start(args)
