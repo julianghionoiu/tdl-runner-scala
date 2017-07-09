@@ -9,4 +9,4 @@
 ## 2. How to start
 
 - Open `src/main/scala/befaster/BeFasterApp.scala`
-- Read the documentation
+- Read the comments as documentation, they will guide through the rest of the setup
