@@ -1,6 +1,7 @@
 package befaster.solutions
 
-//noinspection NotImplementedCode
+import befaster.runner.SolutionNotImplementedException
+
 object Checkout {
-  def checkout(skus: String): Integer = ???
+  def checkout(skus: String): Integer = throw new SolutionNotImplementedException()
 }

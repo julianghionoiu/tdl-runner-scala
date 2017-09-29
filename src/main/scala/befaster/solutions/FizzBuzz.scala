@@ -1,6 +1,7 @@
 package befaster.solutions
 
-//noinspection NotImplementedCode
+import befaster.runner.SolutionNotImplementedException
+
 object FizzBuzz {
-  def fizzBuzz(number: Int): String = ???
+  def fizzBuzz(number: Int): String = throw new SolutionNotImplementedException()
 }

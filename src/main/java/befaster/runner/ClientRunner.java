@@ -4,16 +4,13 @@ import befaster.solutions.Checkout;
 import befaster.solutions.FizzBuzz;
 import befaster.solutions.Hello;
 import befaster.solutions.Sum;
-import com.google.common.io.Files;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Optional;
-
 import tdl.client.Client;
 import tdl.client.ProcessingRules;
 
+import java.util.Arrays;
+import java.util.Optional;
+
+import static befaster.runner.CredentialsConfigFile.readFromConfigFile;
 import static tdl.client.actions.ClientActions.publish;
 
 public class ClientRunner {
@@ -21,7 +18,7 @@ public class ClientRunner {
     private RunnerAction defaultRunnerAction;
     private final String username;
 
-    public static ClientRunner forUsername(String username) {
+    public static ClientRunner forUsername(@SuppressWarnings("SameParameterValue") String username) {
         return new ClientRunner(username);
     }
 
@@ -29,7 +26,7 @@ public class ClientRunner {
         this.username = username;
     }
 
-    public ClientRunner withServerHostname(String hostname) {
+    public ClientRunner withServerHostname(@SuppressWarnings("SameParameterValue") String hostname) {
         this.hostname = hostname;
         return this;
     }
@@ -40,6 +37,11 @@ public class ClientRunner {
     }
 
     public void start(String[] args) {
+        if(!isRecordingSystemOk()) {
+            System.out.println("Please run `record_screen_and_upload` before continuing.");
+            return;
+        }
+
         RunnerAction runnerAction = extractActionFrom(args).orElse(defaultRunnerAction);
         System.out.println("Chosen action is: "+runnerAction.name());
 
@@ -49,13 +51,15 @@ public class ClientRunner {
                 .create();
 
         ProcessingRules processingRules = new ProcessingRules() {{
-            on("display_description").call(p -> displayAndSaveDescription(asString(p[0]), asString(p[1]))).then(publish());
+            on("display_description").call(p -> RoundManagement.displayAndSaveDescription(asString(p[0]), asString(p[1]))).then(publish());
             on("sum").call(p -> Sum.sum(asInt(p[0]), asInt(p[1]))).then(runnerAction.getClientAction());
             on("hello").call(p -> Hello.hello(asString(p[0]))).then(runnerAction.getClientAction());
             on("fizz_buzz").call(p -> FizzBuzz.fizzBuzz(asInt(p[0]))).then(runnerAction.getClientAction());
             on("checkout").call(p -> Checkout.checkout(asString(p[0]))).then(runnerAction.getClientAction());
         }};
         client.goLiveWith(processingRules);
+
+        RecordingSystem.notifyEvent(RoundManagement.getLastFetchedRound(), runnerAction.getShortName());
     }
 
     private static Optional<RunnerAction> extractActionFrom(String[] args) {
@@ -65,23 +69,20 @@ public class ClientRunner {
                 .findFirst();
     }
 
-    //~~~~~~~ Provided implementations ~~~~~~~~~~~~~~
 
-    private static String displayAndSaveDescription(String label, String description) {
-        System.out.println("Starting round: "+label);
-        System.out.println(description);
+    private boolean isRecordingSystemOk() {
+        boolean requireRecording = Boolean.parseBoolean(readFromConfigFile("tdl_require_rec", "true"));
 
-        //Save description
-        File output = new File("challenges" + File.separator + label + ".txt");
-        try {
-            Files.write(description.getBytes(), output);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        //noinspection SimplifiableIfStatement
+        if (requireRecording) {
+            return RecordingSystem.isRunning();
+        } else {
+            return true;
         }
-        System.out.println("Challenge description saved to file: "+output.getPath()+".");
-
-        return "OK";
     }
+
+
+    //~~~~~~~ Provided implementations ~~~~~~~~~~~~~~
 
     private static String asString(String s) {
         return s;

@@ -4,14 +4,20 @@ import tdl.client.actions.ClientAction;
 import tdl.client.actions.ClientActions;
 
 public enum RunnerAction {
-    getNewRoundDescription(ClientActions.stop()),
-    testConnectivity(ClientActions.stop()),
-    deployToProduction(ClientActions.publish());
+    getNewRoundDescription("new", ClientActions.stop()),
+    testConnectivity("test", ClientActions.stop()),
+    deployToProduction("deploy", ClientActions.publish());
 
+    private String shortName;
     private ClientAction clientAction;
 
-    RunnerAction(ClientAction clientAction) {
+    RunnerAction(String shortName, ClientAction clientAction) {
+        this.shortName = shortName;
         this.clientAction = clientAction;
+    }
+
+    public String getShortName() {
+        return shortName;
     }
 
     public ClientAction getClientAction() {

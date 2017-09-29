@@ -1,6 +1,7 @@
 package befaster.solutions
 
-//noinspection NotImplementedCode
+import befaster.runner.SolutionNotImplementedException
+
 object Hello {
-  def hello(friendName: String): String = ???
+  def hello(friendName: String): String = throw new SolutionNotImplementedException()
 }
