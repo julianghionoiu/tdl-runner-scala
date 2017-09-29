@@ -165,6 +165,7 @@ fi
 # Prepare params
 PARAM_CONFIG_FILE="--config ${APP_HOME}/config/credentials.config"
 PARAM_STORE_DIR="--store ${APP_HOME}/record/localstore"
+PARAM_SOURCECODE_DIR="--sourcecode ${APP_HOME}"
 
 eval splitJvmOpts ${DEFAULT_JVM_OPTS} ${JAVA_OPTS} ${RECORD_OPTS}
-exec "$JAVACMD" "${JVM_OPTS[@]}" -jar "$JARFILE" ${PARAM_CONFIG_FILE} ${PARAM_STORE_DIR} "$@"
+exec "$JAVACMD" "${JVM_OPTS[@]}" -jar "$JARFILE" ${PARAM_CONFIG_FILE} ${PARAM_STORE_DIR} ${PARAM_SOURCECODE_DIR} "$@"

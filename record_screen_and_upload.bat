@@ -72,10 +72,11 @@ set CMD_LINE_ARGS=%$
 set JARFILE=%APP_HOME%\record\record-and-upload-capsule.jar
 set PARAM_CONFIG_FILE=--config %APP_HOME%\config\credentials.config
 set PARAM_STORE_DIR=--store %APP_HOME%\record\localstore
+set PARAM_SOURCECODE_DIR=--sourcecode %APP_HOME%
 
 
 @rem Execute Record
-"%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %RECORD_OPTS% -jar "%JARFILE%" %PARAM_CONFIG_FILE% %PARAM_STORE_DIR% %CMD_LINE_ARGS%
+"%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %RECORD_OPTS% -jar "%JARFILE%" %PARAM_CONFIG_FILE% %PARAM_STORE_DIR% %PARAM_SOURCECODE_DIR% %CMD_LINE_ARGS%
 
 :end
 @rem End local scope for the variables with windows NT shell
