@@ -1,13 +1,12 @@
 package befaster.runner;
 
-import befaster.solutions.Checkout;
-import befaster.solutions.FizzBuzz;
-import befaster.solutions.Hello;
-import befaster.solutions.Sum;
 import tdl.client.Client;
 import tdl.client.ProcessingRules;
+import tdl.client.abstractions.UserImplementation;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import static befaster.runner.CredentialsConfigFile.readFromConfigFile;
@@ -17,6 +16,7 @@ public class ClientRunner {
     private String hostname;
     private RunnerAction defaultRunnerAction;
     private final String username;
+    private final Map<String, UserImplementation> solutions;
 
     public static ClientRunner forUsername(@SuppressWarnings("SameParameterValue") String username) {
         return new ClientRunner(username);
@@ -24,6 +24,7 @@ public class ClientRunner {
 
     private ClientRunner(String username) {
         this.username = username;
+        this.solutions = new HashMap<>();
     }
 
     public ClientRunner withServerHostname(@SuppressWarnings("SameParameterValue") String hostname) {
@@ -35,6 +36,12 @@ public class ClientRunner {
         defaultRunnerAction = actionIfNoArgs;
         return this;
     }
+
+    public ClientRunner withSolutionFor(String methodName, UserImplementation solution) {
+        solutions.put(methodName, solution);
+        return this;
+    }
+
 
     public void start(String[] args) {
         if(!isRecordingSystemOk()) {
@@ -50,13 +57,17 @@ public class ClientRunner {
                 .setUniqueId(username)
                 .create();
 
-        ProcessingRules processingRules = new ProcessingRules() {{
-            on("display_description").call(p -> RoundManagement.displayAndSaveDescription(asString(p[0]), asString(p[1]))).then(publish());
-            on("sum").call(p -> Sum.sum(asInt(p[0]), asInt(p[1]))).then(runnerAction.getClientAction());
-            on("hello").call(p -> Hello.hello(asString(p[0]))).then(runnerAction.getClientAction());
-            on("fizz_buzz").call(p -> FizzBuzz.fizzBuzz(asInt(p[0]))).then(runnerAction.getClientAction());
-            on("checkout").call(p -> Checkout.checkout(asString(p[0]))).then(runnerAction.getClientAction());
-        }};
+        ProcessingRules processingRules = new ProcessingRules();
+        processingRules
+                .on("display_description")
+                .call(p -> RoundManagement.displayAndSaveDescription(p[0], p[1]))
+                .then(publish());
+
+        solutions.forEach((methodName, userImplementation) -> processingRules
+                        .on(methodName)
+                        .call(userImplementation)
+                        .then(runnerAction.getClientAction()));
+
         client.goLiveWith(processingRules);
 
         RecordingSystem.notifyEvent(RoundManagement.getLastFetchedRound(), runnerAction.getShortName());
@@ -79,17 +90,6 @@ public class ClientRunner {
         } else {
             return true;
         }
-    }
-
-
-    //~~~~~~~ Provided implementations ~~~~~~~~~~~~~~
-
-    private static String asString(String s) {
-        return s;
-    }
-
-    private static int asInt(String s) {
-        return Integer.parseInt(s);
     }
 
 }
