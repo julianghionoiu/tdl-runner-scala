@@ -5,7 +5,7 @@ import befaster.runner.CredentialsConfigFile.readFromConfigFile
 import befaster.runner.TypeConversion.asInt
 import befaster.solutions.{Checkout, FizzBuzz, Hello, Sum}
 
-object Start extends App {
+object ConnectToServer extends App {
   /**
     * ~~~~~~~~~~ Running the system: ~~~~~~~~~~~~~
     *
@@ -45,7 +45,7 @@ object Start extends App {
     *
     **/
   ClientRunner.forUsername(readFromConfigFile("tdl_username"))
-    .withServerHostname("run.befaster.io")
+    .withServerHostname(readFromConfigFile("tdl_hostname"))
     .withActionIfNoArgs(RunnerAction.testConnectivity)
     .withSolutionFor("sum", (p: Array[String]) => Sum.sum(asInt(p(0)), asInt(p(1))).asInstanceOf[AnyRef])
     .withSolutionFor("hello", (p: Array[String]) => Hello.hello(p(0)).asInstanceOf[AnyRef])

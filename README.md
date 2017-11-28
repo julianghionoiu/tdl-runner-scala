@@ -8,5 +8,5 @@
 
 ## 2. How to start
 
-- Open `src/main/scala/befaster/Start.scala`
+- Open `src/main/scala/befaster/ConnectToServer.scala`
 - Read the comments as documentation, they will guide through the rest of the setup
