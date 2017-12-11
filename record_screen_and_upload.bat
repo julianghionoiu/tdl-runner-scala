@@ -74,6 +74,24 @@ set PARAM_CONFIG_FILE=--config %APP_HOME%\config\credentials.config
 set PARAM_STORE_DIR=--store %APP_HOME%\record\localstore
 set PARAM_SOURCECODE_DIR=--sourcecode %APP_HOME%
 
+for /f "tokens=3" %%g in ('%JAVA_EXE% -version 2^>^&1 ^| findstr /i "version"') do (
+    set JAVA_FULL_VERSION=%%g
+)
+set JAVA_FULL_VERSION=%JAVA_FULL_VERSION:"=%
+
+for /f "delims=. tokens=1-3" %%v in ("%JAVA_FULL_VERSION%") do (
+    set JAVA_VERSION=%%v
+)
+
+if "%JAVA_VERSION%" LSS "9" (
+   echo "---> Pre-Java 9 detected <---"
+   echo "Using DEFAULT_JVM_OPTS variable with value '%DEFAULT_JVM_OPTS%'"
+) else (
+   echo "---> Java 9 or higher detected (Java version %JAVA_VERSION%) <---"
+   set DEFAULT_JVM_OPTS=--illegal-access=warn --add-modules=java.xml.bind,java.activation %DEFAULT_JVM_OPTS%
+   echo "Adding JVM args to the DEFAULT_JVM_OPTS variable, new value set to '%DEFAULT_JVM_OPTS%'"
+   echo "--------------------------------------------------------------------------------------------------------------"
+)
 
 @rem Execute Record
 "%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %RECORD_OPTS% -jar "%JARFILE%" %PARAM_CONFIG_FILE% %PARAM_STORE_DIR% %PARAM_SOURCECODE_DIR% %CMD_LINE_ARGS%
