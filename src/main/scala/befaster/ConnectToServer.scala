@@ -1,9 +1,11 @@
 package befaster
 
-import befaster.runner.{ClientRunner, RunnerAction}
-import befaster.runner.CredentialsConfigFile.readFromConfigFile
 import befaster.runner.TypeConversion.asInt
+import befaster.runner.UserInputAction
+import befaster.runner.Utils.{getConfig, getRunnerConfig}
 import befaster.solutions.{Checkout, FizzBuzz, Hello, Sum}
+import tdl.client.queue.QueueBasedImplementationRunner
+import tdl.client.runner.ChallengeSession
 
 object ConnectToServer extends App {
   /**
@@ -46,12 +48,16 @@ object ConnectToServer extends App {
     *        * Anything really, provided that this file stays runnable.
     *
     **/
-  ClientRunner.forUsername(readFromConfigFile("tdl_username"))
-    .withServerHostname(readFromConfigFile("tdl_hostname"))
-    .withActionIfNoArgs(RunnerAction.testConnectivity)
+  val runner: QueueBasedImplementationRunner = new QueueBasedImplementationRunner.Builder()
+    .setConfig(getRunnerConfig)
     .withSolutionFor("sum", (p: Array[String]) => Sum.sum(asInt(p(0)), asInt(p(1))).asInstanceOf[AnyRef])
     .withSolutionFor("hello", (p: Array[String]) => Hello.hello(p(0)).asInstanceOf[AnyRef])
     .withSolutionFor("fizz_buzz", (p: Array[String]) => FizzBuzz.fizzBuzz(asInt(p(0))).asInstanceOf[AnyRef])
     .withSolutionFor("checkout", (p: Array[String]) => Checkout.checkout(p(0)).asInstanceOf[AnyRef])
-    .start(args)
+    .create
+
+  ChallengeSession.forRunner(runner)
+    .withConfig(getConfig)
+    .withActionProvider(new UserInputAction(args))
+    .start()
 }
