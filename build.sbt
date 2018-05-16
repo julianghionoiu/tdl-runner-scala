@@ -25,3 +25,5 @@ libraryDependencies ++= Seq(
 )
 
 jacocoReportSettings := JacocoReportSettings(title = "Report Title", formats = Seq(JacocoReportFormats.XML))
+
+showSuccess := false
