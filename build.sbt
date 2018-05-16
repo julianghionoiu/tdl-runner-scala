@@ -24,6 +24,4 @@ libraryDependencies ++= Seq(
   scalatest
 )
 
-jacocoReportSettings := JacocoReportSettings(title = "Report Title", formats = Seq(JacocoReportFormats.XML))
-
-showSuccess := false
+coverageEnabled := true
