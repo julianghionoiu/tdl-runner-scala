@@ -23,3 +23,5 @@ libraryDependencies ++= Seq(
   unirest,
   scalatest
 )
+
+jacocoReportSettings := JacocoReportSettings(title = "Report Title", formats = Seq(JacocoReportFormats.XML))
