@@ -1,4 +1,4 @@
-package befaster.solutions
+package befaster.solutions.SUM
 
 import org.scalatest.{FlatSpec, Matchers}
 

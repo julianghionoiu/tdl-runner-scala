@@ -1,4 +1,4 @@
-package befaster.solutions
+package befaster.solutions.HLO
 
 import befaster.runner.SolutionNotImplementedException
 

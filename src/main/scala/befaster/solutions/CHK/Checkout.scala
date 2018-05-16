@@ -1,4 +1,4 @@
-package befaster.solutions
+package befaster.solutions.CHK
 
 import befaster.runner.SolutionNotImplementedException
 
