@@ -3,7 +3,10 @@ package befaster
 import befaster.runner.TypeConversion.asInt
 import befaster.runner.UserInputAction
 import befaster.runner.Utils.{getConfig, getRunnerConfig}
-import befaster.solutions.{Checkout, FizzBuzz, Hello, Sum}
+import befaster.solutions.CHK.Checkout
+import befaster.solutions.FIZ.FizzBuzz
+import befaster.solutions.HLO.Hello
+import befaster.solutions.SUM.Sum
 import tdl.client.queue.QueueBasedImplementationRunner
 import tdl.client.runner.ChallengeSession
 

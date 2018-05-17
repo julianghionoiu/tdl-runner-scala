@@ -1,4 +1,4 @@
-package befaster.solutions
+package befaster.solutions.FIZ
 
 import befaster.runner.SolutionNotImplementedException
 

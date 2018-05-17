@@ -23,3 +23,12 @@ libraryDependencies ++= Seq(
   unirest,
   scalatest
 )
+
+coverageEnabled := true
+
+lazy val tdlTests = taskKey[Unit]("Run tests for CI")
+
+tdlTests := {
+  // Capture the test result
+  val testResult = (test in Test).result.value
+}
