@@ -11,7 +11,7 @@ CHALLENGE_ID=$1
 SCOVERAGE_REPORT_XML_FILE="${SCRIPT_CURRENT_DIR}/target/scala-2.12/scoverage-report/scoverage.xml"
 SCALA_CODE_COVERAGE_INFO="${SCRIPT_CURRENT_DIR}/target/scala-code-coverage.txt"
 
-sbt clean coverage tdlTests coverageReport || true
+( cd ${SCRIPT_CURRENT_DIR} && sbt clean coverage tdlTests coverageReport || true )
 
 [ -e ${SCALA_CODE_COVERAGE_INFO} ] && rm ${SCALA_CODE_COVERAGE_INFO}
 
