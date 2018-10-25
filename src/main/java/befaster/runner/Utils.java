@@ -15,7 +15,8 @@ public class Utils {
 
     public static ImplementationRunnerConfig getRunnerConfig() throws ConfigNotFoundException {
         return new ImplementationRunnerConfig()
-                .setUniqueId(readFromConfigFile("tdl_username"))
+                .setRequestQueueName(readFromConfigFile("tdl_request_queue_name"))
+                .setResponseQueueName(readFromConfigFile("tdl_response_queue_name"))
                 .setHostname(readFromConfigFile("tdl_hostname"));
     }
 }
