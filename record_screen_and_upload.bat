@@ -139,8 +139,9 @@ for /f "delims=. tokens=1-3" %%v in ("%JAVA_FULL_VERSION%") do (
 
 echo.
 echo JAVA_VERSION=%JAVA_VERSION%
+set JAVA_VERSION_9=9
 
-if "%JAVA_VERSION%" LSS "9" (
+if %JAVA_VERSION% lss %JAVA_VERSION_9% (
    echo "--- Pre-Java 9 detected (Java version %JAVA_VERSION%) ---"
    echo "Using DEFAULT_JVM_OPTS variable with value '%DEFAULT_JVM_OPTS%'"
 ) else (
