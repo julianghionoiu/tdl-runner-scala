@@ -167,25 +167,29 @@ PARAM_CONFIG_FILE="--config ${APP_HOME}/config/credentials.config"
 PARAM_STORE_DIR="--store ${APP_HOME}/record/localstore"
 PARAM_SOURCECODE_DIR="--sourcecode ${APP_HOME}"
 
-# Look for tokens "9, "10, "11 or "12 in the Java version string, 
+# Look for tokens "9, "10, "11 or "12 in the Java version string,
 # if found, return the whole Java String, otherwise return empty string
 #
 # For e.g.
-#   --version command output    JAVA_VERSION   
+#   --version command output    JAVA_VERSION
 #   ========================   ==============
 #   java version "1.8.0_172"     <no output>
 #   java version "9.0.1"            "9
 #   java version "10.0.1"           "10
 #   java version "11.0.2"           "11
 #   java version "12-ea"            "12-ea
-JAVA_VERSION=$($JAVACMD -version 2>&1 | grep '"9\|"10\|"11\|"12')
+JAVA_VERSION_STRING=$($JAVACMD -version 2>&1)
+echo ${JAVA_VERSION_STRING}
+JAVA_FULL_VERSION=$(echo ${JAVA_VERSION_STRING} | grep -o '\".*\"')
+echo JAVA_FULL_VERSION=${JAVA_FULL_VERSION}
+JAVA_VERSION=$(echo ${JAVA_FULL_VERSION}| grep '"9\|"10\|"11\|"12')
 
-# Only include digits from value in JAVA_VERSION, 
-# If the above value contains non-numeric values, 
+# Only include digits from value in JAVA_VERSION,
+# If the above value contains non-numeric values,
 # only the digits before it are returned
 #
 # For e.g.
-#   JAVA_VERSION   JAVA_VERSION_INT_VALUE   
+#   JAVA_VERSION   JAVA_VERSION_INT_VALUE
 #   ============   ======================
 #    <no output>         <no output>
 #         9                  9
@@ -193,20 +197,14 @@ JAVA_VERSION=$($JAVACMD -version 2>&1 | grep '"9\|"10\|"11\|"12')
 #        11                  11
 #       12-ea                12
 #
-# The for loop below iterates through tokens, 
+# The for loop below iterates through tokens,
 # tokens are separated by the delimeter provided to 'delim'
-# Only the first token is retained, and as per the above table, 
+# Only the first token is retained, and as pattern the above table,
 # it will always be empty or a numeric value between 9 and 12 (included)
 JAVA_VERSION_INT_VALUE=$(echo $JAVA_VERSION | grep -o '"[0-9]*' | tr -d '"')
-if [ -z "${JAVA_VERSION_INT_VALUE}" ]; then
-   echo "---> Pre-Java 9 detected <---"
-   echo "Using DEFAULT_JVM_OPTS variable with value '${DEFAULT_JVM_OPTS}'"
-else
-   echo "---> Java 9 or higher detected (version $JAVA_VERSION_INT_VALUE) <---"
-   DEFAULT_JVM_OPTS ="--illegal-access=warn  --add-modules=java.xml.bind,java.activation  ${DEFAULT_JVM_OPTS}"
-   echo "Adding JVM args to the DEFAULT_JVM_OPTS variable, new value set to '${DEFAULT_JVM_OPTS}'"
-   echo "--------------------------------------------------------------------------------------------------------------"
-fi
+echo "JAVA_VERSION=${JAVA_VERSION_INT_VALUE:-8}"
+echo "Using DEFAULT_JVM_OPTS variable with value '${DEFAULT_JVM_OPTS}'"
+echo "--------------------------------------------------------------------------------------------------------------"
 
 eval splitJvmOpts ${DEFAULT_JVM_OPTS} ${JAVA_OPTS} ${RECORD_OPTS}
 exec "$JAVACMD" "${JVM_OPTS[@]}" -jar "$JARFILE" ${PARAM_CONFIG_FILE} ${PARAM_STORE_DIR} ${PARAM_SOURCECODE_DIR} "$@"
