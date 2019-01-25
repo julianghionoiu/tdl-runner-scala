@@ -1,4 +1,4 @@
-name := "tdl-warmup-scala"
+name := "tdl-runner-scala"
 
 version := "1.0"
 
