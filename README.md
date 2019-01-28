@@ -1,4 +1,4 @@
-# tdl-warmup-scala
+# tdl-runner-scala
 
 
 ## 1. Requirements
@@ -8,5 +8,5 @@
 
 ## 2. How to start
 
-- Open `src/main/scala/befaster/ConnectToServer.scala`
+- Open `src/main/scala/befaster/SendCommandToServer.scala`
 - Read the comments as documentation, they will guide through the rest of the setup

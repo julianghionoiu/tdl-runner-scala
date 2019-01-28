@@ -10,7 +10,7 @@ import befaster.solutions.SUM.Sum
 import tdl.client.queue.QueueBasedImplementationRunner
 import tdl.client.runner.ChallengeSession
 
-object ConnectToServer extends App {
+object SendCommandToServer extends App {
   /**
     * ~~~~~~~~~~ Running the system: ~~~~~~~~~~~~~
     *
