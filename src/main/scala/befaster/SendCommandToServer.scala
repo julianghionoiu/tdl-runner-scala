@@ -1,12 +1,7 @@
 package befaster
 
-import befaster.runner.TypeConversion.asInt
 import befaster.runner.UserInputAction
 import befaster.runner.Utils.{getConfig, getRunnerConfig}
-import befaster.solutions.CHK.Checkout
-import befaster.solutions.FIZ.FizzBuzz
-import befaster.solutions.HLO.Hello
-import befaster.solutions.SUM.Sum
 import tdl.client.queue.QueueBasedImplementationRunner
 import tdl.client.runner.ChallengeSession
 
@@ -51,12 +46,15 @@ object SendCommandToServer extends App {
     *        * Anything really, provided that this file stays runnable.
     *
     **/
+  val entry = EntryPointMapping
   val runner: QueueBasedImplementationRunner = new QueueBasedImplementationRunner.Builder()
     .setConfig(getRunnerConfig)
-    .withSolutionFor("sum", (p: Array[String]) => Sum.sum(asInt(p(0)), asInt(p(1))).asInstanceOf[AnyRef])
-    .withSolutionFor("hello", (p: Array[String]) => Hello.hello(p(0)).asInstanceOf[AnyRef])
-    .withSolutionFor("fizz_buzz", (p: Array[String]) => FizzBuzz.fizzBuzz(asInt(p(0))).asInstanceOf[AnyRef])
-    .withSolutionFor("checkout", (p: Array[String]) => Checkout.checkout(p(0)).asInstanceOf[AnyRef])
+    .withSolutionFor("sum", entry.sum)
+    .withSolutionFor("hello", entry.hello)
+    .withSolutionFor("array_sum", entry.array_sum)
+    .withSolutionFor("int_range", entry.int_range)
+    .withSolutionFor("fizz_buzz", entry.fizz_buzz)
+    .withSolutionFor("checkout", entry.checkout)
     .create
 
   ChallengeSession.forRunner(runner)
