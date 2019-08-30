@@ -3,6 +3,10 @@
 # Ignore all dot folders
 .*
 
+# Ignore all temp files
+~$*
+*~
+
 # Ignore all archives
 *.zip
 *.tar.gz
