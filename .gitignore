@@ -25,5 +25,6 @@ target
 **/challenges/*.txt
 record
 config/credentials.config
+coverage
 coverage.tdl
 jre
