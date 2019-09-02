@@ -1,7 +1,7 @@
 # ~~~~~~~~~ Global ~~~~~~~~~
 
 # Ignore all dot folders
-.*
+.*/
 
 # Ignore all temp files
 ~$*
