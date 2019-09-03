@@ -3,22 +3,12 @@
 # Ignore all dot folders
 .*/
 
-# Ignore all temp files
-~$*
-*~
-
-# Ignore all archives
-*.zip
-*.tar.gz
-*.tar
-*.rar
-
 # ~~~~~~~~~ Language specific ~~~~~~~~~
 *.class
 hs_err_pid*
-build
-out
-target
+build/
+out/
+target/
 
 # ~~~~~~~~~ IDE specific ~~~~~~~~~
 
@@ -27,8 +17,9 @@ target
 
 # ~~~~~~~~~ Accelerate ~~~~~~~~~
 **/challenges/*.txt
-record
+record/
 config/credentials.config
-coverage
+coverage/
 coverage.tdl
-jre
+jre/
+
