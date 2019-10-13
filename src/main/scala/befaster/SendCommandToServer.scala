@@ -57,6 +57,7 @@ object SendCommandToServer extends App {
     .withSolutionFor("int_range", entry.int_range)
     .withSolutionFor("fizz_buzz", entry.fizz_buzz)
     .withSolutionFor("checkout", entry.checkout)
+    .withSolutionFor("checklite", entry.checklite)
     .create
 
   ChallengeSession.forRunner(runner)

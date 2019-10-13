@@ -4,6 +4,7 @@ import java.util
 
 import befaster.solutions.ARRS.ArraySum
 import befaster.solutions.CHK.Checkout
+import befaster.solutions.CHL.Checklite
 import befaster.solutions.FIZ.FizzBuzz
 import befaster.solutions.HLO.Hello
 import befaster.solutions.IRNG.IntRange
@@ -28,5 +29,6 @@ object EntryPointMapping {
   }
   def fizz_buzz(p: util.List[JsonElement]): AnyRef = FizzBuzz.fizzBuzz(p.get(0).getAsInt).asInstanceOf[AnyRef]
   def checkout(p: util.List[JsonElement]): AnyRef = Checkout.checkout(p.get(0).getAsString).asInstanceOf[AnyRef]
+  def checklite(p: util.List[JsonElement]): AnyRef = Checklite.checklite(p.get(0).getAsString).asInstanceOf[AnyRef]
 
 }
